@@ -15,7 +15,11 @@ SOURCES += \
     worker.cpp \
     upgrade.cpp \
     sqlite.cpp \
-    backlight.cpp
+    backlight.cpp \
+    gpiopininput.cpp \
+    gpiopinoutput.cpp \
+    gpiopinsinput.cpp \
+    gpiopinsoutput.cpp
 
 HEADERS += \
     system.h \
@@ -24,7 +28,13 @@ HEADERS += \
     upgrade.h \
     sqlite.h \
     worker.h \
-    backlight.h
+    backlight.h \
+    gpio.h \
+    gpiopininput.h \
+    gpiopinoutput.h \
+    gpiopinsinput.h \
+    gpiopinsoutput.h \
+    i2c-dev.h
 
 OTHER_FILES = qmldir
 
