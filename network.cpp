@@ -11,7 +11,7 @@ QString Network::getIp()
 {
     foreach(QHostAddress ip, m_ip_list) {
         qDebug() << ip.toString();
-        if(ip != ip.LocalHost) {
+        if(ip != ip.LocalHost && ip.protocol() == QAbstractSocket::IPv4Protocol) {
             qDebug() << "returning: " << ip.toString();
             return ip.toString();
         }
