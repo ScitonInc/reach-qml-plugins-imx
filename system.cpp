@@ -32,7 +32,7 @@ bool System::setDate(int year, int month, int day)
         return false;
     }
 
-    d_set.append(d_new.toString());
+    d_set.append(d_new.toString(Qt::ISODate));
     d_set.append(" ");
     d_set.append(d_cur.time().toString());
 
@@ -61,7 +61,7 @@ bool System::setTime(int hour, int minutes, int seconds)
         return false;
     }
 
-    t_set.append(t_cur.date().toString());
+    t_set.append(t_cur.date().toString(Qt::ISODate));
     t_set.append(" ");
     t_set.append(t_new.toString());
 
