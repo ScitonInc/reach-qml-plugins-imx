@@ -43,8 +43,6 @@ bool System::setDate(int year, int month, int day)
     p.start(cmd,args);
     p.waitForFinished(1000);
 
-    this->setHwClock();
-
     return true;
 }
 
@@ -71,8 +69,6 @@ bool System::setTime(int hour, int minutes, int seconds)
 
     p.start(cmd,args);
     p.waitForFinished(1000);
-
-    this->setHwClock();
 
     return true;
 }
