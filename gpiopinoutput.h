@@ -16,6 +16,7 @@ public:
     int pin() const;
     void setPin(const int pin);
     Q_INVOKABLE int writeToPin(int val);
+    Q_INVOKABLE int readPin();
 signals:
     
 public slots:

@@ -12,7 +12,7 @@ public:
     explicit GPIOPinsOutput(QQuickItem *parent = 0);
     ~GPIOPinsOutput();
     Q_INVOKABLE int writeToPins(int val);
-    
+    Q_INVOKABLE int readPins();
 signals:
     
 public slots:
