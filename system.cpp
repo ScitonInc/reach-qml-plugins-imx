@@ -109,14 +109,12 @@ QString System::execute(QString command, QStringList args)
         data.append(p.readAll());
 
    return QString::fromLatin1(data.data());
-
 }
 
 QString System::execute(QString command)
 {
     QProcess p(this);
     p.setProcessChannelMode(QProcess::MergedChannels);
-
     qDebug() << "executing " << command << "\n";
 
     p.start(command);
@@ -127,6 +125,23 @@ QString System::execute(QString command)
         data.append(p.readAll());
 
     return QString::fromLatin1(data.data());
-
 }
 
+QString System::shell(QString command)
+{
+    QProcess p(this);
+    QStringList args;
+
+    args << "-c" << command;
+    p.setProcessChannelMode(QProcess::MergedChannels);
+    qDebug() << "executing sh " << args << "\n";
+
+    p.start("sh", args);
+
+    QByteArray data;
+
+    while(p.waitForReadyRead())
+        data.append(p.readAll());
+
+    return QString::fromLatin1(data.data());
+}
