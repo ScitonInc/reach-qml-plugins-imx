@@ -183,12 +183,17 @@ QString SqLite::lastError()
 
 void SqLite::closeDB()
 {
+    QProcess p(this);
+    QString cmd(SYNC_CMD);
+
     if (db->isOpen())
     {
         // Close and backup database
         if (backUpFlag)
             backupDB();
         db->close();
+        p.start(cmd);
+        p.waitForFinished(1000);
         delete db;
         QStringList list = QSqlDatabase::connectionNames();
         for(int i = 0; i < list.count(); ++i) {

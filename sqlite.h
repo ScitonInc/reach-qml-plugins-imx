@@ -11,11 +11,13 @@
 #include <QDir>
 #include <QCryptographicHash>
 #include <QDebug>
+#include <QProcess>
 
 #define DATABASE_NAME "settings.sqlite"
 #define DATABASE_BACKUP_NAME "settingsbak.sqlite"
 #define DATABASE_PATH "/application/databases"
 //#define DATABASE_PATH "/home/reach/databases"
+#define SYNC_CMD "/bin/sync"
 
 class SqLite : public QQuickItem
 {
