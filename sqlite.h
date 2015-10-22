@@ -31,18 +31,15 @@ public:
     Q_INVOKABLE bool openDB();
     Q_INVOKABLE void closeDB();
     Q_INVOKABLE QString lastError();
-    Q_INVOKABLE QString getSetting(QString setting);
-    Q_INVOKABLE bool setSetting(QString setting, QString value);
     Q_INVOKABLE int execSql(QString sql);
     Q_INVOKABLE int execSql(QString sql, QStringList arguments);
     Q_INVOKABLE QVariantList getRows(QString sql);
 
 private:
     QSqlDatabase* db;
-    bool createSettingsTable();
     void backupDB();
     bool restoreDB();
-    bool backUpFlag = false;
+    bool backUpFlag;
 
 };
 

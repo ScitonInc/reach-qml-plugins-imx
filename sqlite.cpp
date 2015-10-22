@@ -8,6 +8,7 @@ SqLite::SqLite(QQuickItem *parent):
     // following line:
     
     // setFlag(ItemHasNoContents, false);
+    backUpFlag = false;
 }
 
 SqLite::~SqLite()
@@ -42,9 +43,7 @@ bool SqLite::openDB()
 
     if (ret && query->next())
     {
-        //Create settings table if it does not exist
         qDebug() << "Sqlite database open: " << path;
-        //ret = createSettingsTable();
     }
     else
     {
@@ -53,58 +52,6 @@ bool SqLite::openDB()
     query->finish();
     delete query;
 
-    return ret;
-}
-
-bool SqLite::createSettingsTable()
-{
-    bool ret = false;
-    if (db->isOpen())
-    {
-        {
-            QSqlQuery* query = new QSqlQuery(db->database("reach_connection"));
-            ret = query->exec("CREATE TABLE IF NOT EXISTS settings(setting TEXT UNIQUE, value TEXT)");
-            query->finish();
-            delete query;
-        }
-    }
-    return ret;
-}
-
-
-bool SqLite::setSetting(QString setting, QString value)
-{
-    bool ret = false;
-    if (db->isOpen())
-    {
-        {
-            QSqlQuery* query = new QSqlQuery(db->database("reach_connection"));
-            query->prepare("INSERT OR REPLACE INTO settings VALUES (?,?)");
-            query->addBindValue(setting);
-            query->addBindValue(value);
-            ret = query->exec();
-            delete query;
-            backUpFlag = true;
-        }
-    }
-    return ret;
-}
-
-QString SqLite::getSetting(QString setting)
-{
-    QString ret = "";
-    if (db->isOpen())
-    {
-        {
-            QSqlQuery* query = new QSqlQuery(db->database("reach_connection"));
-            query->prepare("SELECT value FROM settings WHERE setting=?");
-            query->addBindValue(setting);
-            query->exec();
-            if (query->next())
-                ret = query->value(0).toString();
-            delete query;
-        }
-    }
     return ret;
 }
 
@@ -192,6 +139,8 @@ void SqLite::closeDB()
         if (backUpFlag)
             backupDB();
         db->close();
+
+        /* call sync to flush disk cache */
         p.start(cmd);
         p.waitForFinished(1000);
         delete db;
