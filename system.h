@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE QString execute(QString command, QStringList args);
     Q_INVOKABLE QString execute(QString command);
     Q_INVOKABLE QString shell(QString command);
+    Q_INVOKABLE QString getSoftwareVersion();
 
 private slots:
     bool setHwClock(void);
