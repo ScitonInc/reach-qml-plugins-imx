@@ -13,7 +13,8 @@ SqLite::SqLite(QQuickItem *parent):
 
 SqLite::~SqLite()
 {
-
+    if (db)
+        delete db;
 }
 
 bool SqLite::openDB()
@@ -24,7 +25,10 @@ bool SqLite::openDB()
 
     // Find QSLite driver
     db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE", "reach_connection"));
-    QString path(DATABASE_PATH);
+    QString path(VM_DATABASE_PATH);
+
+    if (QSysInfo::buildCpuArchitecture() == "arm")
+        path = DATABASE_PATH;
 
     //Check if path exists.  If not we have to create it
     QDir dir = QDir::root();
@@ -50,6 +54,7 @@ bool SqLite::openDB()
         qDebug() << "Sqlite database could not be open."  << "  File may be corrupted: " << path;
     }
     query->finish();
+
     delete query;
 
     return ret;
@@ -143,7 +148,6 @@ void SqLite::closeDB()
         /* call sync to flush disk cache */
         p.start(cmd);
         p.waitForFinished(1000);
-        delete db;
         QStringList list = QSqlDatabase::connectionNames();
         for(int i = 0; i < list.count(); ++i) {
             QSqlDatabase::removeDatabase(list[i]);
