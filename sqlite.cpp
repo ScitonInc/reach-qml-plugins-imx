@@ -25,10 +25,7 @@ bool SqLite::openDB()
 
     // Find QSLite driver
     db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE", "reach_connection"));
-    QString path(VM_DATABASE_PATH);
-
-    if (QSysInfo::buildCpuArchitecture() == "arm")
-        path = DATABASE_PATH;
+    QString path(DATABASE_PATH);
 
     //Check if path exists.  If not we have to create it
     QDir dir = QDir::root();
