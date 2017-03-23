@@ -3,10 +3,16 @@
 
 #include <QObject>
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 
-#define BRIGHTNESS "/sys/class/backlight/backlight.22/brightness"
-#define BL_POWER "/sys/class/backlight/backlight.22/bl_power"
+#define FULL_BRIGHTNESS "/sys/class/backlight/backlight.22/brightness"
+#define FULL_BL_POWER "/sys/class/backlight/backlight.22/bl_power"
+
+#define BASE_BRIGHTNESS "/sys/class/backlight/backlight.21/brightness"
+#define BASE_BL_POWER "/sys/class/backlight/backlight.21/bl_power"
+
+#define FULL_BACKLIGHT_PATH "/sys/class/backlight/backlight.22"
 
 class Backlight : public QObject
 {

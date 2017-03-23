@@ -3,10 +3,16 @@
 #include <QDebug>
 
 Backlight::Backlight(QObject *parent) : QObject(parent)
-    ,m_brightness_file(BRIGHTNESS)
-    ,m_backlight_file(BL_POWER)
+    ,m_brightness_file(FULL_BRIGHTNESS)
+    ,m_backlight_file(FULL_BL_POWER)
 {
+    // Check here if this is the correct kernel
+    QDir dir(FULL_BACKLIGHT_PATH);
 
+    if (!dir.exists()) {
+        m_brightness_file.setFileName(BASE_BRIGHTNESS);
+        m_backlight_file.setFileName(BASE_BL_POWER);
+    }
 }
 
 Backlight::~Backlight()
