@@ -3,18 +3,11 @@
 SqLite::SqLite(QQuickItem *parent):
     QQuickItem(parent)
 {
-    // By default, QDeclarativeItem does not draw anything. If you subclass
-    // QDeclarativeItem to create a visual item, you will need to uncomment the
-    // following line:
-    
-    // setFlag(ItemHasNoContents, false);
     backUpFlag = false;
 }
 
 SqLite::~SqLite()
 {
-    if (db)
-        delete db;
 }
 
 bool SqLite::openDB()
@@ -44,11 +37,11 @@ bool SqLite::openDB()
 
     if (ret && query->next())
     {
-        qDebug() << "Sqlite database open: " << path;
+        qDebug() << "[QML] sqlite database open: " << path;
     }
     else
     {
-        qDebug() << "Sqlite database could not be open."  << "  File may be corrupted: " << path;
+        qDebug() << "[QML] sqlite database could not be open."  << "  file may be corrupted: " << path;
     }
     query->finish();
 
@@ -145,10 +138,13 @@ void SqLite::closeDB()
         /* call sync to flush disk cache */
         p.start(cmd);
         p.waitForFinished(1000);
+
+        delete db;
+
         QStringList list = QSqlDatabase::connectionNames();
         for(int i = 0; i < list.count(); ++i) {
             QSqlDatabase::removeDatabase(list[i]);
-            qDebug() << "database removed: " << list[i];
+            qDebug() << "[QML] database removed: " << list[i];
         }
     }
 }
@@ -174,7 +170,7 @@ void SqLite::backupDB()
                 QFile::remove(destination);
 
             if (QFile::copy(source, destination))
-                qDebug() << "Sqlite database was backed up.";
+                qDebug() << "[QML] sqlite database was backed up.";
 
             query->prepare( "ROLLBACK;");
             query->exec();
@@ -200,7 +196,7 @@ bool SqLite::restoreDB()
         if ( sourceFile.open( QIODevice::ReadOnly ) ) {
             sourceHash.addData( sourceFile.readAll() );
         } else {
-            qDebug() << "Could not open db: " << source;
+            qDebug() << "[QML] could not open db: " << source;
             return false;
         }
         QByteArray sourceSig = sourceHash.result();
@@ -210,7 +206,7 @@ bool SqLite::restoreDB()
         if ( destinationFile.open( QIODevice::ReadOnly ) ) {
             destinationHash.addData( destinationFile.readAll() );
         } else {
-            qDebug() << "Could not open db: " << destination;
+            qDebug() << "[QML] could not open db: " << destination;
             return false;
         }
         QByteArray destinationSig = destinationHash.result();
@@ -219,12 +215,12 @@ bool SqLite::restoreDB()
         {
             QFile::remove(source);
             QFile::copy(destination, source);
-            qDebug() << "Sqlite database: " << source << " was restored.";
+            qDebug() << "[QML] sqlite database: " << source << " was restored.";
             ret = true;
         }
         else
         {
-            qDebug() << "Sqlite database: " << source << " did not need to be restored.";
+            qDebug() << "[QML] sqlite database: " << source << " did not need to be restored.";
             ret = false;
         }
 
