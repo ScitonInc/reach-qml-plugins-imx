@@ -94,7 +94,7 @@ QString System::execute(QString command, QStringList args)
 {
     QProcess p(this);
 
-    qDebug() << "executing " << command << " with args " << args << "\n";
+    qDebug() << "executing " << command << " with args " << args;
 
     p.start(command, args);
 
@@ -115,7 +115,7 @@ QString System::execute(QString command)
 {
     QProcess p(this);
     p.setProcessChannelMode(QProcess::MergedChannels);
-    qDebug() << "executing " << command << "\n";
+    qDebug() << "executing " << command;
 
     p.start(command);
 
@@ -134,7 +134,7 @@ QString System::shell(QString command)
 
     args << "-c" << command;
     p.setProcessChannelMode(QProcess::MergedChannels);
-    qDebug() << "executing sh " << args << "\n";
+    qDebug() << "executing sh " << args;
 
     p.start("sh", args);
 
@@ -148,6 +148,13 @@ QString System::shell(QString command)
 
 QString System::getSoftwareVersion()
 {
-    QString version = shell("cat /etc/reach-pn");
+    QFileInfo fi;
+    QString version = "";
+
+    if (fi.exists("/etc/reach-pn"))
+        version = shell("cat /etc/reach-pn");
+    else
+        version = shell("cat /etc/reach-version | grep \"^meta-reach\" | awk '{print $3}' | cut -c1-8");
+
     return version;
 }
