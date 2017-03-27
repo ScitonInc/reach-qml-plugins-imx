@@ -148,6 +148,6 @@ QString System::shell(QString command)
 
 QString System::getSoftwareVersion()
 {
-    QString version = shell("cat /etc/reach-version | grep \"^meta-reach\" | awk '{print $3}' | cut -c1-8");
+    QString version = shell("cat /etc/reach-pn");
     return version;
 }
