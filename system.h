@@ -2,6 +2,7 @@
 #define SYSTEM_H
 
 #include <QQuickItem>
+#include <QFileInfo>
 #include <QTime>
 #include <QProcess>
 #include <QDebug>
